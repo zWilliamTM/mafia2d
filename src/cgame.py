@@ -1,4 +1,5 @@
 import pygame
+from menu_handler import MenuHandler, MLoading
 
 class CGame:
   def __init__(self):
@@ -9,6 +10,7 @@ class CGame:
 
     self.screen = None
     self.background = None
+    self.current_state : MLoading
 
     self.scheduler()
 
@@ -16,8 +18,9 @@ class CGame:
   def scheduler(self):
     self.screen = pygame.display.set_mode(self.size)
     self.background = pygame.Surface(self.size).convert()
-    self.background.fill((200, 200, 0))
-    self.screen.blit(self.background, (0, 0))
+    
+    self.current_state = MLoading(self.background)
+    self.current_state.scheduler()
 
     self.running = True
 
@@ -25,11 +28,14 @@ class CGame:
     if event.type == pygame.QUIT:
       self.running = False
 
+    self.current_state.events(event)
+
   def updates(self):
+    self.current_state.updates()
     pass
 
   def drawing(self):
-    self.screen.blit(self.background, (0, 0))
+    self.current_state.drawing(self.screen)
 
   def run(self):
     while self.running:
