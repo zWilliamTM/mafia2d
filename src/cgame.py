@@ -25,6 +25,9 @@ class CGame:
     if event.type == pygame.QUIT:
       self.running = False
 
+  def updates(self):
+    pass
+
   def drawing(self):
     self.screen.blit(self.background, (0, 0))
 
@@ -33,6 +36,7 @@ class CGame:
       for event in pygame.event.get():
         self.events(event)
 
+      self.updates()
       self.drawing()
 
       pygame.display.flip()
